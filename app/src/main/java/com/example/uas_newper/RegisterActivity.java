@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText emailT, pwT, pwTC;
+    EditText emailT, pwT, pwTC, mName;
     Button registerBtn;
     TextView haveAcc;
     ActionBar actionBar;
@@ -50,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         pwTC = findViewById(R.id.pwConfirmText);
         registerBtn = findViewById(R.id.register_btn);
         haveAcc = findViewById(R.id.have_account);
+        mName = findViewById(R.id.namaText);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -61,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = emailT.getText().toString().trim();
                 String password = pwT.getText().toString().trim();
+                String nameT = mName.getText().toString().trim();
 
 
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -75,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                         System.out.println(pwT.getText());
                         System.out.println(pwTC.getText());
                     } else {
-                        RegisterUser(email, password);
+                        RegisterUser(email, password, nameT);
                     }
                 }
             }
@@ -90,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void RegisterUser(String email, String password) {
+    private void RegisterUser(String email, String password, final String nameT) {
 
         progressDialog.show();
 
@@ -108,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity {
                             HashMap<Object, String> hashMap = new HashMap<>();
                             hashMap.put("email", email);
                             hashMap.put("email", email);
-                            hashMap.put("name", "");
+                            hashMap.put("name", nameT);
                             hashMap.put("level", "user");
                             hashMap.put("image", "");
 

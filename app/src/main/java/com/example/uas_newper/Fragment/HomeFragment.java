@@ -17,9 +17,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.uas_newper.Adapter.NewsTabAdapter;
+import com.example.uas_newper.AddPostActivity;
 import com.example.uas_newper.BeritaActivity;
 import com.example.uas_newper.MainActivity;
 import com.example.uas_newper.R;
+import com.example.uas_newper.RegisterActivity;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -30,8 +34,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class HomeFragment extends Fragment {
     // When requested, this adapter returns a DemoObjectFragment,
     // representing an object in the collection.
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private NewsTabAdapter newsTabAdapter;
 
-    ViewPager viewPager;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -45,5 +51,22 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.tabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        this.viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        this.newsTabAdapter = new NewsTabAdapter(getChildFragmentManager());
+        this.newsTabAdapter.AddFragment(new SportFragment(), "Register");
+        this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
+        this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
+        this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
+        this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
+        this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
+        this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
+
+        viewPager.setAdapter(this.newsTabAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+    }
 }
 
