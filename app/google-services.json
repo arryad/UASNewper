@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "571925820099",
+    "firebase_url": "https://uas-newper-f7b22.firebaseio.com",
+    "project_id": "uas-newper-f7b22",
+    "storage_bucket": "uas-newper-f7b22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571925820099:android:db4457581065785255a876",
+        "android_client_info": {
+          "package_name": "com.example.uas_newper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571925820099-8pjtavb4gghn1abnbjj41okva9oqd9if.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.uas_newper",
+            "certificate_hash": "a836499ba2a203f82dd294b319e579b58b296214"
+          }
+        },
+        {
+          "client_id": "571925820099-5pitqhq065625io16iub14vlova271fl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcZcwtmU5XPMsMfjAHPSM6F8Ch2ImROII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571925820099-5pitqhq065625io16iub14vlova271fl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
