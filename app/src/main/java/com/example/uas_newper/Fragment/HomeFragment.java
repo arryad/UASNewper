@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         this.tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         this.viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         this.newsTabAdapter = new NewsTabAdapter(getChildFragmentManager());
-        this.newsTabAdapter.AddFragment(new SportFragment(), "Register");
+        this.newsTabAdapter.AddFragment(new SportFragment(), "Sport");
         this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
         this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
         this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");

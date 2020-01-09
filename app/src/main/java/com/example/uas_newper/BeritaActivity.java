@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -44,13 +45,13 @@ public class BeritaActivity extends AppCompatActivity {
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
-
         HomeFragment fragment = new HomeFragment();
         FragmentTransaction ftl= getSupportFragmentManager().beginTransaction();
         ftl.replace(R.id.content, fragment, "");
         ftl.commit();
 
     }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener selectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
@@ -82,39 +83,49 @@ public class BeritaActivity extends AppCompatActivity {
         }
     };
 
-    private void checkUserStatus(){
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user != null){
-            emailProfile.setText(user.getEmail());
-        } else{
-            startActivity(new Intent(BeritaActivity.this, MainActivity.class));
-            finish();
-        }
-    }
+    //check user status menggunakan auth
+//    private void checkUserStatus(){
+//        FirebaseUser user = firebaseAuth.getCurrentUser();
+//        if(user != null){
+//            emailProfile.setText(user.getEmail());
+//        } else{
+//            startActivity(new Intent(BeritaActivity.this, MainActivity.class));
+//            finish();
+//        }
+//    }
 
+    //mendisablekan fitur back yang ada pada menu bar
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finish();
     }
 
+    //pertama kali di jalankan
     @Override
     protected void onStart() {
-        checkUserStatus();
+//        checkUserStatus();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        emailProfile.setText(user.getEmail());
         super.onStart();
     }
 
+    //untuk menampilkan menu ...
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
+    //untuk logout pada menu bar
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.action_logout){
             firebaseAuth.signOut();
-            checkUserStatus();
+//            checkUserStatus();
+            MyPref.getEditor().clear().commit();
+            startActivity(new Intent(BeritaActivity.this, SplashscreenActivity.class));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

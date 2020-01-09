@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -15,10 +16,13 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uas_newper.Adapter.Account;
+import com.example.uas_newper.Model.AccountModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,20 +36,30 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private DatabaseReference database;
+    private ArrayList<AccountModel> dataAkun;
+    private String jenisUser, idUser;
 
     private static final int RC_SIGN_IN = 100;
     GoogleSignInClient mGoogleSignInClient;
 
+    private MyPref myPref;
     EditText emailT,pwT;
     TextView regis,recoverPw;
-    Button logIn,LoginG;
+    Button logIn;
+    ImageButton LoginG;
     ActionBar actionBar;
     private FirebaseAuth mAuth;
 
@@ -69,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         logIn = findViewById(R.id.login_btn);
         recoverPw = findViewById(R.id.recoverPass);
         LoginG = findViewById(R.id.googleLogin);
+
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -115,7 +130,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                MyPref.getEditor().putBoolean(MyPref.ISLOGIN, true);
+                MyPref.getEditor().commit();
                 startActivityForResult(signInIntent, RC_SIGN_IN);
+
             }
         });
 
@@ -184,16 +202,58 @@ public class LoginActivity extends AppCompatActivity {
     private void loginUser(String email, String password) {
         pd.setMessage("Logging In..");
         pd.show();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            pd.dismiss();
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class));
-                            finish();
+                            Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("email").equalTo(emailT.getText().toString());
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        dataAkun = new ArrayList<>();
+                                        dataAkun.clear();
+                                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                            AccountModel account = snapshot.getValue(AccountModel.class);
+                                            dataAkun.add(account);
+                                            pd.dismiss();
+                                            // Sign in success, update UI with the signed-in user's information
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                        }
+                                        jenisUser = dataAkun.get(0).getLevel();
+                                        idUser = dataAkun.get(0).getId();
+
+                                        Toast.makeText(LoginActivity.this, jenisUser, Toast.LENGTH_SHORT).show();
+                                        if(jenisUser.equals("admin")){
+                                            myPref.saveSPString(MyPref.LEVEL, jenisUser);
+                                            myPref.saveSPString(MyPref.ID, idUser);
+                                            myPref.saveSPBoolean(MyPref.ISLOGIN, true);
+                                            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                                            finish();
+                                        } else if(jenisUser.equals("user")){
+                                            myPref.saveSPString(MyPref.LEVEL, jenisUser);
+                                            myPref.saveSPString(MyPref.ID, idUser);
+                                            myPref.saveSPBoolean(MyPref.ISLOGIN, true);
+                                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class));
+                                            finish();
+                                        }
+//                                        MyPref.getEditor().putBoolean(MyPref.ISLOGIN, true);
+//                                        MyPref.getEditor().putString(MyPref.NAME, account.getName());
+//                                        MyPref.getEditor().putString(MyPref.LEVEL, account.getLevel());
+//                                        MyPref.getEditor().putString(MyPref.EMAIL, account.getEmail());
+//                                        MyPref.getEditor().putString(MyPref.IMAGE, account.getImage());
+//                                        MyPref.getEditor().commit();
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.d("error", databaseError.getDetails());
+                                }
+                            });
+
                         } else {
                             pd.dismiss();
                             // If sign in fails, display a message to the user.
@@ -235,6 +295,39 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
+    //belumdipakai
+    private void cekUser(){
+        Query query = database.child("Users").orderByChild("email").equalTo(emailT.getText().toString());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dataAkun = new ArrayList<AccountModel>();
+                dataAkun.clear();
+                for(DataSnapshot noteDataSnapshot : dataSnapshot.getChildren()){
+                    AccountModel account= noteDataSnapshot.getValue(AccountModel.class);
+                    dataAkun.add(account);
+                }
+                jenisUser = dataAkun.get(0).getLevel();
+                idUser = dataAkun.get(0).getId();
+
+                Toast.makeText(LoginActivity.this, jenisUser, Toast.LENGTH_SHORT).show();
+                if(jenisUser.equals("admin")){
+                    //dashboardadmin
+                }else{
+                    //dashboarduser
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    //login menggunakan gooogle + auto terdaftar
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -252,8 +345,8 @@ public class LoginActivity extends AppCompatActivity {
                             HashMap<Object, String> hashMap = new HashMap<>();
                             hashMap.put("email", email);
                             hashMap.put("email", email);
-                            hashMap.put("name", "");
-                            hashMap.put("level", "");
+                            hashMap.put("name", email);
+                            hashMap.put("level", "user");
                             hashMap.put("image", "");
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
