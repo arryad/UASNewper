@@ -37,7 +37,7 @@ public class SplashscreenActivity extends AppCompatActivity {
         if(myPref.getSPISLOGIN()){
             String jenisUser = myPref.getSPLevel();
             if(jenisUser.equals("admin")){
-                startActivity(new Intent(SplashscreenActivity.this, RegisterActivity.class));
+                startActivity(new Intent(SplashscreenActivity.this, BeritaActivity.class));
                 finish();
             }else if(jenisUser.equals("user")){
                 startActivity(new Intent(SplashscreenActivity.this, BeritaActivity.class));

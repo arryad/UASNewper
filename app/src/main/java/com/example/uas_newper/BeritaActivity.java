@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class BeritaActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
-
+    MyPref myPref;
     TextView emailProfile;
     ActionBar actionBar;
 
@@ -122,9 +122,11 @@ public class BeritaActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.action_logout){
             firebaseAuth.signOut();
+            myPref = new MyPref(this);
 //            checkUserStatus();
-            MyPref.getEditor().clear().commit();
-            startActivity(new Intent(BeritaActivity.this, SplashscreenActivity.class));
+            myPref.saveSPBoolean(MyPref.ISLOGIN, false);
+//            MyPref.getEditor().clear().commit();
+            startActivity(new Intent(BeritaActivity.this, SplashscreenActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }
 

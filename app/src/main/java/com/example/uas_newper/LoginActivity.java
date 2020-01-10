@@ -50,12 +50,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private DatabaseReference database;
     private ArrayList<AccountModel> dataAkun;
-    private String jenisUser, idUser;
+    private String jenisUser, idUser, nameUser;
+    private MyPref myPref;
 
     private static final int RC_SIGN_IN = 100;
     GoogleSignInClient mGoogleSignInClient;
 
-    private MyPref myPref;
+
     EditText emailT,pwT;
     TextView regis,recoverPw;
     Button logIn;
@@ -70,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        myPref = new MyPref(this);
 
         actionBar = getSupportActionBar();
         actionBar.setTitle("Login");
@@ -130,8 +133,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                MyPref.getEditor().putBoolean(MyPref.ISLOGIN, true);
-                MyPref.getEditor().commit();
+                myPref.saveSPBoolean(MyPref.ISLOGIN, true);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
 
             }
@@ -221,21 +223,27 @@ public class LoginActivity extends AppCompatActivity {
                                             // Sign in success, update UI with the signed-in user's information
                                             FirebaseUser user = mAuth.getCurrentUser();
                                         }
+
                                         jenisUser = dataAkun.get(0).getLevel();
                                         idUser = dataAkun.get(0).getId();
+                                        nameUser = dataAkun.get(0).getName();
 
                                         Toast.makeText(LoginActivity.this, jenisUser, Toast.LENGTH_SHORT).show();
                                         if(jenisUser.equals("admin")){
                                             myPref.saveSPString(MyPref.LEVEL, jenisUser);
                                             myPref.saveSPString(MyPref.ID, idUser);
+                                            myPref.saveSPString(MyPref.NAME, nameUser);
                                             myPref.saveSPBoolean(MyPref.ISLOGIN, true);
-                                            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class)
+                                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                                             finish();
                                         } else if(jenisUser.equals("user")){
                                             myPref.saveSPString(MyPref.LEVEL, jenisUser);
                                             myPref.saveSPString(MyPref.ID, idUser);
+                                            myPref.saveSPString(MyPref.NAME, nameUser);
                                             myPref.saveSPBoolean(MyPref.ISLOGIN, true);
-                                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class));
+                                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class)
+                                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                                             finish();
                                         }
 //                                        MyPref.getEditor().putBoolean(MyPref.ISLOGIN, true);

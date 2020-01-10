@@ -4,17 +4,16 @@ public class AccountModel {
 
     String id;
     String level;
-    String password;
     String image;
     String name;
     String email;
 
-    public AccountModel(String id, String email, String level, String name, String password) {
+    public AccountModel(String id, String level, String email, String name, String image) {
         this.id = id;
         this.email = email;
-        this.password = password;
         this.level = level;
         this.name = name;
+        this.image = image;
     }
 
     public AccountModel(){
@@ -24,43 +23,15 @@ public class AccountModel {
     public String getId() {
         return id;
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getLevel() {
         return level;
     }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getImage() {
         return image;
     }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -68,6 +39,17 @@ public class AccountModel {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    public void setId(String id) {
+        this.id = id;
+    }
+    public void setImage(String image) {
+        this.image = image;
+    }
+    public void setLevel(String level) {
+        this.level = level;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

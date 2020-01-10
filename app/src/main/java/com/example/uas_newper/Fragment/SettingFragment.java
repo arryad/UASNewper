@@ -1,18 +1,19 @@
 package com.example.uas_newper.Fragment;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.uas_newper.MyPref;
 import com.example.uas_newper.R;
 
@@ -23,6 +24,14 @@ public class SettingFragment extends Fragment {
     private String TAG = SettingFragment.class.getSimpleName();
 
     private TextView txtName, txtLevel;
+    private MyPref myPref;
+    private FragmentActivity myContext;
+
+//    @Override
+//    public void onAttach(Activity activity){
+//        myContext = (FragmentActivity) activity;
+//        super.onAttach(activity);
+//    }
 
     @Override
     @Nullable
@@ -35,10 +44,12 @@ public class SettingFragment extends Fragment {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_setting, container, false);
 
-        txtName.setText(MyPref.getSharedPreferences().getString(MyPref.NAME, "NAME"));
-        txtLevel.setText(MyPref.getSharedPreferences().getString(MyPref.LEVEL, "LEVEL"));
+        myPref = new MyPref(getContext());
+        txtName.setText(myPref.getSPName());
+        txtLevel.setText(myPref.getSPLevel());
 
-
+//        txtName.setText(MyPref.getSharedPreferences().getString(MyPref.NAME, "NAME"));
+//        txtLevel.setText(MyPref.getSharedPreferences().getString(MyPref.LEVEL, "LEVEL"));
         return view;
     }
 

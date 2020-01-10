@@ -8,19 +8,20 @@ public class MyPref {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
-    public static final String NEWPER = "NEWPER";
+    public static final String NEWPERR = "NEWPERR";
     public static final String ISLOGIN = "ISLOGIN";
     public static final String NAME = "NAME";
     public static final String EMAIL = "EMAIL";
     public static final String IMAGE = "IMAGE";
     public static final String ID = "ID";
     public static final String LEVEL = "LEVEL";
+    private static String myPref ="myPref";
 
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
 
     public MyPref(Context context){
-        sp = context.getSharedPreferences(NEWPER, Context.MODE_PRIVATE);
+        sp = context.getSharedPreferences(NEWPERR, Context.MODE_PRIVATE);
         spEditor = sp.edit();
     }
 
@@ -52,6 +53,7 @@ public class MyPref {
         return editor;
     }
 
+
     public String getSPLevel(){
         return sp.getString(LEVEL,"");
     }
@@ -64,10 +66,6 @@ public class MyPref {
         return sp.getString(EMAIL, "");
     }
 
-
-
-
-
-
-
+    public String getSPName() { return sp.getString(NAME, "");
+    }
 }
