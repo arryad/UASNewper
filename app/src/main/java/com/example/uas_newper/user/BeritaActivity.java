@@ -1,22 +1,22 @@
-package com.example.uas_newper;
+package com.example.uas_newper.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.uas_newper.Fragment.HomeFragment;
-import com.example.uas_newper.Fragment.ProfileFragment;
-import com.example.uas_newper.Fragment.SettingFragment;
+import com.example.uas_newper.Fragment.user.HomeFragment;
+import com.example.uas_newper.Fragment.user.ProfileFragment;
+import com.example.uas_newper.Fragment.user.SettingFragment;
+import com.example.uas_newper.MyPref;
+import com.example.uas_newper.R;
+import com.example.uas_newper.SplashscreenActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -122,10 +122,10 @@ public class BeritaActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.action_logout){
             firebaseAuth.signOut();
-            myPref = new MyPref(this);
+//            myPref = new MyPref(this);
 //            checkUserStatus();
-            myPref.saveSPBoolean(MyPref.ISLOGIN, false);
-//            MyPref.getEditor().clear().commit();
+//            myPref.saveSPBoolean(MyPref.ISLOGIN, false);
+            MyPref.getEditor().clear().commit();
             startActivity(new Intent(BeritaActivity.this, SplashscreenActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
         }

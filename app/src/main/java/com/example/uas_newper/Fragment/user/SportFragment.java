@@ -1,4 +1,4 @@
-package com.example.uas_newper.Fragment;
+package com.example.uas_newper.Fragment.user;
 
 
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import com.example.uas_newper.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment {
+public class SportFragment extends Fragment {
 
 
-    public ProfileFragment() {
+    public SportFragment() {
         // Required empty public constructor
     }
 
@@ -26,7 +26,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return inflater.inflate(R.layout.fragment_sport, container, false);
     }
 
 }

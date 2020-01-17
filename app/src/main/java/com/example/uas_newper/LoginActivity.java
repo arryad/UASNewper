@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -21,8 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.uas_newper.Adapter.Account;
 import com.example.uas_newper.Model.AccountModel;
+import com.example.uas_newper.user.BeritaActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -133,9 +132,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                myPref.saveSPBoolean(MyPref.ISLOGIN, true);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
-
             }
         });
 
@@ -362,8 +359,58 @@ public class LoginActivity extends AppCompatActivity {
                             reference.child(uid).setValue(hashMap);
 
                             Toast.makeText(LoginActivity.this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class));
-                            finish();
+                            Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("email").equalTo(user.getEmail().toString());
+                            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(dataSnapshot.exists()){
+                                        dataAkun = new ArrayList<>();
+                                        dataAkun.clear();
+                                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                                            AccountModel account = snapshot.getValue(AccountModel.class);
+                                            dataAkun.add(account);
+                                            pd.dismiss();
+                                            // Sign in success, update UI with the signed-in user's information
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                        }
+
+                                        jenisUser = dataAkun.get(0).getLevel();
+                                        idUser = dataAkun.get(0).getId();
+                                        nameUser = dataAkun.get(0).getName();
+
+                                        Toast.makeText(LoginActivity.this, jenisUser, Toast.LENGTH_SHORT).show();
+                                        if(jenisUser.equals("admin")){
+
+                                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class)
+                                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                            finish();
+                                        } else if(jenisUser.equals("user")){
+                                            myPref.saveSPString(MyPref.LEVEL, jenisUser);
+                                            myPref.saveSPString(MyPref.ID, idUser);
+                                            myPref.saveSPString(MyPref.NAME, nameUser);
+                                            myPref.saveSPBoolean(MyPref.ISLOGIN, true);
+                                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class)
+                                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                            finish();
+                                        }
+//                                        MyPref.getEditor().putBoolean(MyPref.ISLOGIN, true);
+//                                        MyPref.getEditor().putString(MyPref.NAME, account.getName());
+//                                        MyPref.getEditor().putString(MyPref.LEVEL, account.getLevel());
+//                                        MyPref.getEditor().putString(MyPref.EMAIL, account.getEmail());
+//                                        MyPref.getEditor().putString(MyPref.IMAGE, account.getImage());
+//                                        MyPref.getEditor().commit();
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.d("error", databaseError.getDetails());
+                                }
+                            });
+
+//                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class));
+//                            finish();
 
                         } else {
                             // If sign in fails, display a message to the user.

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.uas_newper.user.BeritaActivity;
+
 public class SplashscreenActivity extends AppCompatActivity {
 
     int TIME_OUT = 3000;
@@ -44,7 +46,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                 finish();
             }
         }else{
-            startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
+            startActivity(new Intent(SplashscreenActivity.this, NewsActivity.class));
             finish();
         }
     }

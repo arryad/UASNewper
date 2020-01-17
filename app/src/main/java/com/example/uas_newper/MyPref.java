@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 public class MyPref {
     private Context context;
     private static SharedPreferences sharedPreferences;
-    private static SharedPreferences.Editor editor;
+    
 
     public static final String NEWPERR = "NEWPERR";
     public static final String ISLOGIN = "ISLOGIN";
@@ -18,7 +18,7 @@ public class MyPref {
     private static String myPref ="myPref";
 
     SharedPreferences sp;
-    SharedPreferences.Editor spEditor;
+    static SharedPreferences.Editor spEditor;
 
     public MyPref(Context context){
         sp = context.getSharedPreferences(NEWPERR, Context.MODE_PRIVATE);
@@ -50,7 +50,7 @@ public class MyPref {
 
 
     public static SharedPreferences.Editor getEditor(){
-        return editor;
+        return spEditor;
     }
 
 

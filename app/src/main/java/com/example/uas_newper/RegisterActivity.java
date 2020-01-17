@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uas_newper.user.BeritaActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView haveAcc;
     ActionBar actionBar;
     ProgressDialog progressDialog;
+    MyPref myPref;
     private FirebaseAuth mAuth;
 
     @Override
@@ -51,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.register_btn);
         haveAcc = findViewById(R.id.have_account);
         mName = findViewById(R.id.namaText);
+        myPref = new MyPref(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -119,6 +122,10 @@ public class RegisterActivity extends AppCompatActivity {
                             reference.child(uid).setValue(hashMap);
 
                             Toast.makeText(RegisterActivity.this, "Registered" + user.getEmail(), Toast.LENGTH_SHORT).show();
+                            myPref.saveSPString(MyPref.LEVEL, "user");
+                            myPref.saveSPString(MyPref.ID, uid);
+                            myPref.saveSPString(MyPref.NAME, nameT);
+                            myPref.saveSPBoolean(MyPref.ISLOGIN, true);
                             startActivity(new Intent(RegisterActivity.this, BeritaActivity.class));
                             finish();
                         } else {
