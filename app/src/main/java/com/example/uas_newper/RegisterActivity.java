@@ -42,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("Register");
+        actionBar.hide();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -111,7 +111,6 @@ public class RegisterActivity extends AppCompatActivity {
                             String uid = user.getUid();
 
                             HashMap<Object, String> hashMap = new HashMap<>();
-                            hashMap.put("email", email);
                             hashMap.put("email", email);
                             hashMap.put("name", nameT);
                             hashMap.put("level", "user");

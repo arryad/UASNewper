@@ -4,36 +4,120 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context=".RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_login" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0" />
+        <!--        <TextView-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:fontFamily="sans-serif"-->
+        <!--            android:layout_marginTop="50dp"-->
+        <!--            android:text="SIGN IN"-->
+        <!--            android:textColor="@color/colorDark"-->
+        <!--            android:textSize="25sp" />-->
+
+        <!--        <ImageView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="20dp"-->
+        <!--            android:layout_marginBottom="20dp"-->
+        <!--            android:layout_marginLeft="20dp"-->
+        <!--            android:layout_marginRight="20dp"-->
+        <!--            android:src="@drawable/logo"-->
+        <!--            android:gravity="center" />-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/input_group"
-        android:layout_alignParentTop="true"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:fontFamily="sans-serif"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
             android:text="Sign Up"
             android:textColor="@color/colorDark"
             android:textSize="20sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:text="Would you join with us?"
-            android:textColor="@color/colorDark"
-            android:textSize="16sp" />
+            android:src="@drawable/logo_register" />
 
+        <EditText
+            android:id="@+id/namaText"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_corner"
+            android:hint="Full name"
+            android:inputType="textPersonName"
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/emailText"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_corner"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/pwText"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_corner"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="15dp" />
+
+        <EditText
+            android:id="@+id/pwConfirmText"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_corner"
+            android:hint="Retype-Password"
+            android:inputType="textPassword"
+            android:padding="15dp" />
+
+
+        <Button
+            android:id="@+id/register_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="?actionBarSize"
+            android:background="@drawable/rounded_corner_button"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Register"
+            android:textColor="#777"
+            android:textSize="17sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,69 +130,14 @@
         android:layout_marginBottom="50dp"
         android:gravity="center"
         android:orientation="vertical">
-
-
-        <EditText
-            android:id="@+id/namaText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edit_text_middle"
-            android:hint="Full name"
-            android:inputType="textPersonName"
-            android:padding="15dp" />
-
-        <EditText
-            android:id="@+id/emailText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edit_text_middle"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:padding="15dp" />
-
-        <EditText
-            android:id="@+id/pwText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edit_text_middle"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="15dp" />
-
-        <EditText
-            android:id="@+id/pwConfirmText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/background_edit_text_middle"
-            android:hint="Retype-Password"
-            android:inputType="textPassword"
-            android:padding="15dp" />
-
-
-        <Button
-            android:id="@+id/register_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/background_button"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:text="SIGN UP"
-            android:textAllCaps="false"
-            android:textColor="#ADDB82"
-            android:textSize="17sp" />
-
         <TextView
             android:id="@+id/have_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:fontFamily="sans-serif"
-            android:padding="10dp"
             android:text="Already Have an Account?  Sign in"
-            android:textAllCaps="true"
             android:textColor="@color/colorDark"
-            android:textSize="13dp"
-            android:textStyle="bold" />
+            android:textSize="13dp" />
+
 
     </LinearLayout>
 </RelativeLayout>

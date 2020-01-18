@@ -74,14 +74,14 @@ public class LoginActivity extends AppCompatActivity {
         myPref = new MyPref(this);
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("Login");
+        actionBar.hide();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         emailT = findViewById(R.id.emailText);
         pwT = findViewById(R.id.pwText);
-        regis = findViewById(R.id.register_btn);
+        regis = findViewById(R.id.register_btn) ;
         logIn = findViewById(R.id.login_btn);
         recoverPw = findViewById(R.id.recoverPass);
         LoginG = findViewById(R.id.googleLogin);
@@ -231,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
                                             myPref.saveSPString(MyPref.ID, idUser);
                                             myPref.saveSPString(MyPref.NAME, nameUser);
                                             myPref.saveSPBoolean(MyPref.ISLOGIN, true);
-                                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class)
+                                            startActivity(new Intent(LoginActivity.this, com.example.uas_newper.admin.BeritaActivity.class)
                                                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                                             finish();
                                         } else if(jenisUser.equals("user")){
@@ -345,12 +345,12 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             String email = user.getEmail();
+                            String username = user.getDisplayName();
                             String uid = user.getUid();
 
                             HashMap<Object, String> hashMap = new HashMap<>();
                             hashMap.put("email", email);
-                            hashMap.put("email", email);
-                            hashMap.put("name", email);
+                            hashMap.put("name", username);
                             hashMap.put("level", "user");
                             hashMap.put("image", "");
 
@@ -381,7 +381,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, jenisUser, Toast.LENGTH_SHORT).show();
                                         if(jenisUser.equals("admin")){
 
-                                            startActivity(new Intent(LoginActivity.this, BeritaActivity.class)
+                                            startActivity(new Intent(LoginActivity.this, com.example.uas_newper.admin.BeritaActivity.class)
                                                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
                                             finish();
                                         } else if(jenisUser.equals("user")){

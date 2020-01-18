@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.uas_newper.Fragment.user.HomeFragment;
 import com.example.uas_newper.Fragment.user.ProfileFragment;
 import com.example.uas_newper.Fragment.user.SettingFragment;
+import com.example.uas_newper.Fragment.user.TvFragment;
 import com.example.uas_newper.MyPref;
 import com.example.uas_newper.R;
 import com.example.uas_newper.SplashscreenActivity;
@@ -65,8 +66,8 @@ public class BeritaActivity extends AppCompatActivity {
                     ft.commit();
                     return true;
                 case R.id.item_profile:
-                    actionBar.setTitle("Profile");
-                    ProfileFragment fragment1 = new ProfileFragment();
+                    actionBar.setTitle("NewsTv");
+                    TvFragment fragment1 = new TvFragment();
                     FragmentTransaction ftl = getSupportFragmentManager().beginTransaction();
                     ftl.replace(R.id.content, fragment1, "");
                     ftl.commit();

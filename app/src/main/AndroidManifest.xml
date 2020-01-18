@@ -11,7 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewsActivity"></activity>
+        <activity android:name=".admin.AddUserActivity"/>
+        <activity android:name=".admin.EditUserActivity"/>
+        <activity android:name=".admin.ListUserActivity" />
+        <activity android:name=".admin.BeritaActivity" />
+        <activity android:name=".NewsActivity" />
         <activity android:name=".SplashscreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +25,7 @@
         </activity>
         <activity android:name=".AddPostActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".user.BeritaActivity"></activity>
+        <activity android:name=".user.BeritaActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
     </application>
