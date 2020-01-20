@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.uas_newper.Adapter.Account;
@@ -32,7 +33,7 @@ public class EditUserActivity extends AppCompatActivity {
 
     private EditText eName, eEmail, eLevel;
     private Button eButton;
-
+    ActionBar actionBar;
     private FirebaseAuth mAuth;
     ProgressDialog progressDialog;
 
@@ -44,6 +45,12 @@ public class EditUserActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_edit);
+
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("Edit User");
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         initView();
 
@@ -96,5 +103,11 @@ public class EditUserActivity extends AppCompatActivity {
             editText.setError("This field cannot be empty");
             return false;
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return super.onSupportNavigateUp();
     }
 }
