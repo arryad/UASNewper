@@ -1,20 +1,17 @@
-package com.example.uas_newper.Fragment.user;
-
-
-import android.os.Bundle;
+package com.example.uas_newper.admin;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.example.uas_newper.Adapter.Account;
 import com.example.uas_newper.Adapter.ListNewsAdapter;
+import com.example.uas_newper.Adapter.ListUserAdapter;
 import com.example.uas_newper.Model.ItemModel;
 import com.example.uas_newper.R;
 import com.google.firebase.database.DataSnapshot;
@@ -23,37 +20,29 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class TerbaruFragment extends Fragment {
-    private String TAG = TerbaruFragment.class.getSimpleName();
-
+public class ListNewsActivity extends AppCompatActivity {
     private ArrayList<ItemModel> listItem;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
-    private RecyclerView recyclerView;
+    private RecyclerView rv_newItem;
     ActionBar actionBar;
 
-
-
-    public TerbaruFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_terbaru, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_news);
 
-        initView(view);
+        actionBar = getSupportActionBar();
+        actionBar.setTitle("News");
 
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).addValueEventListener(new ValueEventListener() {
+        rv_newItem = findViewById(R.id.rv_newsItem);
+        layoutManager = new LinearLayoutManager(ListNewsActivity.this);
+        rv_newItem.setLayoutManager(layoutManager);
+
+        FirebaseUtils.getReference(FirebaseUtils.ITEM_PATH).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listItem = new ArrayList<>();
@@ -62,8 +51,8 @@ public class TerbaruFragment extends Fragment {
                     item.setKey(snapshot.getKey());
                     listItem.add(item);
                 }
-                adapter = new ListNewsAdapter(listItem, getActivity());
-                recyclerView.setAdapter(adapter);
+                adapter = new ListNewsAdapter(listItem, ListNewsActivity.this);
+                rv_newItem.setAdapter(adapter);
             }
 
             @Override
@@ -72,12 +61,5 @@ public class TerbaruFragment extends Fragment {
                 Log.d("MyListActivity", databaseError.getDetails() + " | " + databaseError.getMessage());
             }
         });
-        return view;
-
     }
-
-    private void initView(View view) {
-        recyclerView = view.findViewById(R.id.rv_newsItem);
-    }
-
 }

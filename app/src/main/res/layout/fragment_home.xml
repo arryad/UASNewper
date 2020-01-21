@@ -8,13 +8,6 @@
     tools:context=".Fragment.user.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:textSize="30dp"-->
-<!--        android:textAlignment="center"-->
-<!--        android:gravity="center"-->
-<!--        android:text="Home" />-->
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
@@ -28,6 +21,7 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </androidx.viewpager.widget.ViewPager>
 
 </LinearLayout>

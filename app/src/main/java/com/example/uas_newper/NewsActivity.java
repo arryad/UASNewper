@@ -26,7 +26,7 @@ public class NewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_news);
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("NewsPaper");
+        actionBar.setTitle("Home");
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -46,7 +46,7 @@ public class NewsActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()){
                 case R.id.item_home:
-                    actionBar .setTitle("News Paper");
+                    actionBar .setTitle("Home");
                     HomeFragment fragment = new HomeFragment();
                     FragmentTransaction ft= getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.content, fragment, "");

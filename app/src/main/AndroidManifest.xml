@@ -11,8 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".admin.AddUserActivity"/>
-        <activity android:name=".admin.EditUserActivity"/>
+        <activity android:name=".admin.ListNewsActivity"></activity>
+        <activity android:name=".admin.AddUserActivity" />
+        <activity android:name=".admin.EditUserActivity" />
         <activity android:name=".admin.ListUserActivity" />
         <activity android:name=".admin.BeritaActivity" />
         <activity android:name=".NewsActivity" />

@@ -16,22 +16,26 @@ public class AccountModel {
         this.image = image;
     }
 
-    public AccountModel(){
+    public AccountModel() {
 
     }
 
     public String getId() {
         return id;
     }
+
     public String getLevel() {
         return level;
     }
+
     public String getImage() {
         return image;
     }
+
     public String getName() {
         return name;
     }
+
     public String getEmail() {
         return email;
     }
@@ -39,15 +43,19 @@ public class AccountModel {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public void setId(String id) {
         this.id = id;
     }
+
     public void setImage(String image) {
         this.image = image;
     }
+
     public void setLevel(String level) {
         this.level = level;
     }
+
     public void setName(String name) {
         this.name = name;
     }

@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.uas_newper.AddPostActivity;
 import com.example.uas_newper.Fragment.user.HomeFragment;
 import com.example.uas_newper.Fragment.user.ProfileFragment;
 import com.example.uas_newper.Fragment.user.SettingFragment;
@@ -129,6 +130,8 @@ public class BeritaActivity extends AppCompatActivity {
             MyPref.getEditor().clear().commit();
             startActivity(new Intent(BeritaActivity.this, SplashscreenActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
             finish();
+        } if (id == R.id.action_add_post){
+            startActivity(new Intent(BeritaActivity.this, AddPostActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

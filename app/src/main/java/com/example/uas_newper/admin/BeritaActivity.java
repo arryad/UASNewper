@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.uas_newper.AddPostActivity;
 import com.example.uas_newper.Fragment.user.HomeFragment;
 import com.example.uas_newper.Fragment.user.ListUserFragment;
 import com.example.uas_newper.Fragment.user.SettingFragment;
@@ -60,7 +61,7 @@ public class BeritaActivity extends AppCompatActivity {
             switch (item.getItemId()){
                 case R.id.item_home:
                     actionBar .setTitle("Home");
-                    HomeFragment fragment = new HomeFragment();
+                    com.example.uas_newper.Fragment.admin.HomeFragment fragment = new com.example.uas_newper.Fragment.admin.HomeFragment();
                     FragmentTransaction ft= getSupportFragmentManager().beginTransaction();
                     ft.replace(R.id.content, fragment, "");
                     ft.commit();
@@ -139,6 +140,9 @@ public class BeritaActivity extends AppCompatActivity {
             finish();
         } if (id == R.id.action_listuser){
             startActivity(new Intent(BeritaActivity.this, ListUserActivity.class));
+            finish();
+        } if (id == R.id.action_add_post){
+            startActivity(new Intent(BeritaActivity.this, AddPostActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
