@@ -11,4 +11,10 @@
         <item>user</item>
         <item>admin</item>
     </string-array>
+    <string-array name="kategory_berita">
+        <item> Sport </item>
+        <item> Ekonomi </item>
+        <item> Terpopuler </item>
+        <item> Teknologi </item>
+    </string-array>
 </resources>

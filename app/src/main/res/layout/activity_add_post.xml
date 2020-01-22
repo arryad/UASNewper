@@ -54,20 +54,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nama"
+                    android:text="Judul"
                     android:textColor="@android:color/black" />
 
                 <EditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/et_judul"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/loker_bg"
-                    android:hint="Nama Penulis"
+                    android:hint="Judul Berita"
                     android:inputType="text"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="8dp" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,6 +108,15 @@
                     android:inputType="date"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="8dp" />
+
+                <Spinner
+                    android:id="@+id/et_cb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corner_button"
+                    android:entries="@array/kategory_berita"
+                    android:layout_marginBottom="10dp"
+                    android:padding="20dp" />
 
                 <TextView
                     android:layout_width="wrap_content"

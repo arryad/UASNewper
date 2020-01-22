@@ -4,12 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".admin.ListUserActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_item"
+    <RelativeLayout
+        android:id="@+id/jdl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:background="#CDDC39">
+
+        <ImageView
+            android:layout_alignParentLeft="true"
+            android:id="@+id/bt_back"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_chevron_left_black_24dp" />
+
+        <TextView
+            android:layout_toRightOf="@id/bt_back"
+            android:id="@+id/asd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="List Pengguna"
+            android:textColor="@android:color/black"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:padding="10dp"
+            android:id="@+id/action_tambah"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_usersetting" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/jdl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>

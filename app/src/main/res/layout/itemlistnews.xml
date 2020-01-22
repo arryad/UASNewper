@@ -19,39 +19,33 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/logonews" />
+                android:src="@drawable/logonews"
+                android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/txt_name"
+                android:id="@+id/txt_judul"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/img_item_menu"
                 android:layout_toRightOf="@id/img_item"
                 android:text="Name"
                 android:textColor="@color/colorDark"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/txt_desc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txt_name"
-                android:layout_toLeftOf="@id/img_item_menu"
-                android:layout_toRightOf="@id/img_item"
-                android:text="Level"
-                android:textColor="@color/colorDark"
-                android:textSize="16sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/txt_tgl"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txt_desc"
+                android:layout_below="@id/txt_judul"
                 android:layout_toLeftOf="@id/img_item_menu"
                 android:layout_toRightOf="@id/img_item"
                 android:text="Name"
                 android:textColor="@color/colorDark"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <ImageView
                 android:id="@+id/img_item_menu"

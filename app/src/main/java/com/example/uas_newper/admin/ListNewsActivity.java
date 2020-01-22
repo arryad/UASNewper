@@ -8,19 +8,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.example.uas_newper.Adapter.Account;
-import com.example.uas_newper.Adapter.ListNewsAdapter;
-import com.example.uas_newper.Adapter.ListUserAdapter;
+import com.example.uas_newper.Adapter.ListNewsAdapterAdmin;
+import com.example.uas_newper.FirebaseUtils;
 import com.example.uas_newper.Model.ItemModel;
 import com.example.uas_newper.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ListNewsActivity extends AppCompatActivity {
+public class ListNewsActivity extends AppCompatActivity implements ListNewsAdapterAdmin.ItemListener{
     private ArrayList<ItemModel> listItem;
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
@@ -51,15 +52,26 @@ public class ListNewsActivity extends AppCompatActivity {
                     item.setKey(snapshot.getKey());
                     listItem.add(item);
                 }
-                adapter = new ListNewsAdapter(listItem, ListNewsActivity.this);
+                adapter = new ListNewsAdapterAdmin(listItem, getApplicationContext(), ListNewsActivity.this);
                 rv_newItem.setAdapter(adapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 //                Toast.makeText(getApplicationContext(),"Data Gagal Dimuat", Toast.LENGTH_LONG).show();
-                Log.d("MyListActivity", databaseError.getDetails() + " | " + databaseError.getMessage());
+                Log.d("", databaseError.getDetails() + " | " + databaseError.getMessage());
             }
         });
+    }
+
+    @Override
+    public void deleteItem(ItemModel item) {
+        FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).child(item.getKey()).removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), "Data berhasil di hapus.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

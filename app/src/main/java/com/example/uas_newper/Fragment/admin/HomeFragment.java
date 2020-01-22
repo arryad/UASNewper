@@ -45,13 +45,12 @@ public class HomeFragment extends Fragment {
         this.tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         this.viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         this.newsTabAdapter = new NewsTabAdapter(getChildFragmentManager());
+        this.newsTabAdapter.AddFragment(new BelumPublikasiFragment(), "Belum Publikasi");
         this.newsTabAdapter.AddFragment(new TerbaruFragment(), "Terbaru");
         this.newsTabAdapter.AddFragment(new TerpopulerFragment(), "Terpopuler");
         this.newsTabAdapter.AddFragment(new EkonomiFragment(), "Ekonomi");
-        this.newsTabAdapter.AddFragment(new TeknologiFragment(), "Teknologi");
         this.newsTabAdapter.AddFragment(new SportFragment(), "Olahraga");
-        this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
-        this.newsTabAdapter.AddFragment(new ProfileFragment(), "Register");
+        this.newsTabAdapter.AddFragment(new TeknologiFragment(), "Teknologi");
 
         viewPager.setAdapter(this.newsTabAdapter);
         tabLayout.setupWithViewPager(viewPager);

@@ -17,6 +17,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.uas_newper.Adapter.Account;
+import com.example.uas_newper.FirebaseUtils;
 import com.example.uas_newper.MyPref;
 import com.example.uas_newper.R;
 import com.example.uas_newper.RegisterActivity;
@@ -70,8 +71,8 @@ public class EditUserActivity extends AppCompatActivity {
     }
 
     private void updateItem(Account item) {
-        item.setName(eEmail.getText().toString().trim());
-        item.setName(eLevel.getText().toString().trim());
+        item.setEmail(eEmail.getText().toString().trim());
+        item.setLevel(eLevel.getText().toString().trim());
         item.setName(eName.getText().toString().trim());
 
 

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -42,7 +43,6 @@ public class BeritaActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        emailProfile = findViewById(R.id.ProfileBerita);
 
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
@@ -108,7 +108,6 @@ public class BeritaActivity extends AppCompatActivity {
     protected void onStart() {
 //        checkUserStatus();
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        emailProfile.setText(user.getEmail());
         super.onStart();
     }
 

@@ -107,7 +107,10 @@ public class LoginActivity extends AppCompatActivity {
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     emailT.setError("Invalid Email");
                     emailT.setFocusable(true);
-                } else{
+                } else if(password.isEmpty()){
+                    pwT.setError("Invalid Password");
+                    pwT.setFocusable(true);
+                }else{
                     loginUser(email, password);
                 }
             }

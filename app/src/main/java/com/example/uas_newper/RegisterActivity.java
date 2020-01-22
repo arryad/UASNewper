@@ -74,6 +74,9 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (password.length() < 6) {
                     pwT.setError("Invalid Password length less than 6 character");
                     pwT.setFocusable(true);
+                } else if(nameT.isEmpty()){
+                    mName.setError("Invalid Name");
+                    mName.setFocusable(true);
                 } else {
                     if (!pwT.getText().toString().trim().equals(pwTC.getText().toString())) {
                         Toast.makeText(getApplicationContext(), "Password doesn't match", Toast.LENGTH_SHORT).show();

@@ -14,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.uas_newper.Adapter.ListNewsAdapter;
+import com.example.uas_newper.Adapter.ListNewsAdapterAdmin;
+import com.example.uas_newper.Adapter.ListNewsAdapterUser;
+import com.example.uas_newper.FirebaseUtils;
 import com.example.uas_newper.Model.ItemModel;
 import com.example.uas_newper.R;
 import com.google.firebase.database.DataSnapshot;
@@ -53,7 +55,9 @@ public class TerbaruFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).addValueEventListener(new ValueEventListener() {
+        FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA)
+                .orderByChild("status")
+                .equalTo("expose").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listItem = new ArrayList<>();
@@ -62,7 +66,7 @@ public class TerbaruFragment extends Fragment {
                     item.setKey(snapshot.getKey());
                     listItem.add(item);
                 }
-                adapter = new ListNewsAdapter(listItem, getActivity());
+                adapter = new ListNewsAdapterUser(listItem, getActivity());
                 recyclerView.setAdapter(adapter);
             }
 

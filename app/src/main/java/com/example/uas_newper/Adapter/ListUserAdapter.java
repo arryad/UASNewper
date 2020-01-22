@@ -1,6 +1,8 @@
 package com.example.uas_newper.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uas_newper.R;
@@ -23,10 +26,15 @@ import java.util.ArrayList;
 public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHolder> {
     private ArrayList<Account> listItem;
     private Context context;
+    private ItemListener listener;
 
-    public ListUserAdapter(ArrayList<Account> listItem, Context context) {
+    public ListUserAdapter(ArrayList<Account> listItem, Context context, ItemListener listener) {
         this.listItem = listItem;
         this.context = context;
+        this.listener = listener;
+    }
+
+    public ListUserAdapter(ArrayList<Account> listItem, FragmentActivity activity) {
     }
 
     @NonNull
@@ -62,7 +70,23 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
                                 Toast.makeText(context, "Edit Button", Toast.LENGTH_SHORT).show();
                                 return true;
                             case R.id.action_delete:
-                                Toast.makeText(context, "Delete Button", Toast.LENGTH_SHORT).show();
+                                DialogInterface.OnClickListener dialOnClickListener = new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case DialogInterface.BUTTON_POSITIVE:
+                                                listener.deleteItem(listItem.get(position));
+                                                break;
+
+                                            case DialogInterface.BUTTON_NEGATIVE:
+                                                break;
+                                        }
+                                    }
+                                };
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                                builder.setMessage("Apakah kamu yakin?").setPositiveButton("Ya", dialOnClickListener)
+                                        .setNegativeButton("Tidak", dialOnClickListener).show();
                                 return true;
                             default:
                                 return false;
@@ -91,6 +115,10 @@ public class ListUserAdapter extends RecyclerView.Adapter<ListUserAdapter.ViewHo
             txtLevel = itemView.findViewById(R.id.txt_level);
             txtEmail = itemView.findViewById(R.id.txt_email);
         }
+    }
+
+    public interface ItemListener{
+        void deleteItem(Account item);
     }
 
 }

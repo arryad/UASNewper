@@ -2,7 +2,9 @@ package com.example.uas_newper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -21,6 +23,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uas_newper.Model.ItemModel;
@@ -45,18 +49,23 @@ import java.util.UUID;
 public class AddPostActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 22;
 
+    private TextView txtName, txtLevel;
+    private MyPref myPref;
+    private FragmentActivity myContext;
+
     private ImageView bt_back, iv_pic;
     private ImageButton ib_upload;
-    private EditText et_name, et_deskripsi, et_deadline;
+    private EditText et_deskripsi, et_deadline, et_judul;
+    private Spinner et_cb;
     private Button bt_simpan;
     private ProgressBar loading;
     private String email, userId, pic;
-    private SharedPreferences pref;
     private DatabaseReference databaseReference;
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private Uri filePath;
     private Boolean upload_pic;
+    private ActionBar actionBar;
 
     private Calendar myCalendar = Calendar.getInstance();
 
@@ -64,14 +73,18 @@ public class AddPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
-        pref = getSharedPreferences("likelok", MODE_PRIVATE);
-        email = pref.getString("email", null);
         pic = "-";
         upload_pic = false;
-
-        et_name = findViewById(R.id.et_name);
         et_deskripsi = findViewById(R.id.et_deskripsi);
         et_deadline = findViewById(R.id.et_deadline);
+        et_judul = findViewById(R.id.et_judul);
+        et_cb = findViewById(R.id.et_cb);
+
+        actionBar = getSupportActionBar();
+        actionBar.hide();
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         iv_pic = findViewById(R.id.iv_pic);
         ib_upload = findViewById(R.id.ib_upload);
@@ -83,6 +96,7 @@ public class AddPostActivity extends AppCompatActivity {
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+        myPref = new MyPref(getApplicationContext());
 
 
         et_deadline.setOnClickListener(new View.OnClickListener() {
@@ -112,9 +126,7 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (et_name.getText().toString().isEmpty()
-
-                        || et_deskripsi.getText().toString().isEmpty()
+                if (et_deskripsi.getText().toString().isEmpty()
 
                         || et_deadline.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Seluruh isian wajib diisi", Toast.LENGTH_LONG).show();
@@ -188,6 +200,7 @@ public class AddPostActivity extends AppCompatActivity {
                                     progressDialog.dismiss();
                                     Log.d("TAG", "Gambar udah di up");
                                     insertData(pic);
+                                    Toast.makeText(getApplicationContext(), "Data Akan Segera Di Proses!", Toast.LENGTH_SHORT).show();
                                 }
                             });
 
@@ -247,13 +260,16 @@ public class AddPostActivity extends AppCompatActivity {
             userId = databaseReference.push().getKey();
         }
 
-        String name = et_name.getText().toString();
-
+        String judul = et_judul.getText().toString();
+        String name = myPref.getSPName();
         String deskripsi = et_deskripsi.getText().toString();
-
         String deadline = et_deadline.getText().toString();
+        String kategori = et_cb.getSelectedItem().toString();
+        String status = "unexpose";
+        String sk = status.toString()+kategori.toString();
+        String publisher = "publisher";
 
-        ItemModel item = new ItemModel(userId, name, email, pic, deskripsi, deadline);
+        ItemModel item = new ItemModel(userId, judul, name, email, pic, status, deskripsi, deadline, kategori, sk, publisher);
         databaseReference.child(userId).setValue(item);
         databaseReference.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -261,7 +277,7 @@ public class AddPostActivity extends AppCompatActivity {
                 loading.setVisibility(View.GONE);
                 ItemModel lk = dataSnapshot.getValue(ItemModel.class);
                 if (lk == null) {
-                    Log.e("TAG", "Loker kosong gan");
+                    Log.e("TAG", "berita kosong");
                     upload_pic = false;
                     return;
                 }

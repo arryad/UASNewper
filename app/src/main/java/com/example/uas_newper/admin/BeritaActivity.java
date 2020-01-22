@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.uas_newper.AddPostActivity;
-import com.example.uas_newper.Fragment.user.HomeFragment;
+import com.example.uas_newper.Fragment.admin.HomeFragment;
 import com.example.uas_newper.Fragment.user.ListUserFragment;
 import com.example.uas_newper.Fragment.user.SettingFragment;
 import com.example.uas_newper.Fragment.user.TvFragment;
@@ -38,15 +38,12 @@ public class BeritaActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setTitle("Dashboard Admin");
 
-
-
         firebaseAuth = FirebaseAuth.getInstance();
-        emailProfile = findViewById(R.id.ProfileBerita);
 
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(selectedListener);
 
-        HomeFragment fragment = new HomeFragment();
+        com.example.uas_newper.Fragment.admin.HomeFragment fragment = new HomeFragment();
         FragmentTransaction ftl= getSupportFragmentManager().beginTransaction();
         ftl.replace(R.id.content, fragment, "");
         ftl.commit();
@@ -116,7 +113,6 @@ public class BeritaActivity extends AppCompatActivity {
     protected void onStart() {
 //        checkUserStatus();
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        emailProfile.setText(user.getEmail());
         super.onStart();
     }
 

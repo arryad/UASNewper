@@ -14,11 +14,13 @@ import com.example.uas_newper.Fragment.user.ProfileFragment;
 import com.example.uas_newper.Fragment.user.SettingFragment;
 import com.example.uas_newper.Fragment.user.TvFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class NewsActivity extends AppCompatActivity {
 
     ActionBar actionBar;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public class NewsActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-//        checkUserStatus();
         super.onStart();
     }
+
 }

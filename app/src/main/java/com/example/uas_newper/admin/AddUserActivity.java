@@ -7,6 +7,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +20,6 @@ import com.example.uas_newper.LoginActivity;
 import com.example.uas_newper.MyPref;
 import com.example.uas_newper.R;
 import com.example.uas_newper.RegisterActivity;
-import com.example.uas_newper.user.BeritaActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +40,7 @@ public class AddUserActivity extends AppCompatActivity {
     ActionBar actionBar;
     ProgressDialog progressDialog;
     MyPref myPref;
+    ImageView bt_back;
     private FirebaseAuth mAuth;
 
     @Override
@@ -48,7 +49,7 @@ public class AddUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_user);
 
         actionBar = getSupportActionBar();
-        actionBar.setTitle("Register In Admin");
+        actionBar.hide();
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -61,6 +62,15 @@ public class AddUserActivity extends AppCompatActivity {
         mName = findViewById(R.id.namaText);
         myPref = new MyPref(this);
         level = findViewById(R.id.combobox);
+        bt_back = findViewById(R.id.bt_back);
+
+        bt_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AddUserActivity.this, ListUserActivity.class));
+                finish();
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -81,6 +91,9 @@ public class AddUserActivity extends AppCompatActivity {
                 } else if (password.length() < 6) {
                     pwT.setError("Invalid Password length less than 6 character");
                     pwT.setFocusable(true);
+                } else if (nameT.isEmpty()){
+                    mName.setError("Invalid Email");
+                    mName.setFocusable(true);
                 } else {
                     if (!pwT.getText().toString().trim().equals(pwTC.getText().toString())) {
                         Toast.makeText(getApplicationContext(), "Password doesn't match", Toast.LENGTH_SHORT).show();

@@ -53,7 +53,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                 finish();
             }
         }else{
-            startActivity(new Intent(SplashscreenActivity.this, NewsActivity.class));
+            startActivity(new Intent(SplashscreenActivity.this, LoginActivity.class));
             finish();
         }
     }

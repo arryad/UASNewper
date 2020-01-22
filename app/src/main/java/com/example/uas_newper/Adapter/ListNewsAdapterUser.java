@@ -12,19 +12,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.uas_newper.Model.ItemModel;
 import com.example.uas_newper.R;
+import com.example.uas_newper.TampilanBerita;
+import com.example.uas_newper.TampilanBerita1;
 
 import java.util.ArrayList;
 
-public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHolder> {
+public class ListNewsAdapterUser extends RecyclerView.Adapter<ListNewsAdapterUser.ViewHolder> {
     private ArrayList<ItemModel> listItem;
     private Context context;
 
-    public ListNewsAdapter(ArrayList<ItemModel> listItem, Context context) {
+    public ListNewsAdapterUser(ArrayList<ItemModel> listItem, Context context) {
         this.listItem = listItem;
         this.context = context;
     }
@@ -32,8 +35,8 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
 
     @NonNull
     @Override
-    public ListNewsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemlistnews, parent, false);
+    public ListNewsAdapterUser.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemlistnews_u, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -43,41 +46,20 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
         if(!listItem.get(position).getPic().equals("-")){
             Glide.with(context).load(listItem.get(position).getPic()).into(holder.imgItem);
         }
-        final String name= listItem.get(position).getNama();
+        final String judul= listItem.get(position).getJudul();
         final String desc = listItem.get(position).getDeskripsi();
         final String tgl = listItem.get(position).getDeadline();
         final String ads = listItem.get(position).getEmail();
         final String asd = listItem.get(position).getPic();
 
-
-
-        holder.txtName.setText(name);
-        holder.txtDesc.setText(desc);
+        holder.txtJudul.setText(judul);
         holder.txtTgl.setText(tgl);
-        holder.imgItemMenu.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.imgItemMenu);
-//                popupMenu.inflate(R.menu.menu_list_user);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_edit:
-//                                Intent intent = new Intent(context, EditUserActivity.class);
-//                                intent.putExtra("data", listItem.get(position));
-//                                context.startActivity(intent);
-//                                Toast.makeText(context, "Edit Button", Toast.LENGTH_SHORT).show();
-                                return true;
-                            case R.id.action_delete:
-                                Toast.makeText(context, "Delete Button", Toast.LENGTH_SHORT).show();
-                                return true;
-                            default:
-                                return false;
-                        }
-                    }
-                });
-                popupMenu.show();
+                Intent intent = new Intent(context, TampilanBerita1.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("data", listItem.get(position));
+                context.startActivity(intent);
             }
         });
     }
@@ -88,16 +70,17 @@ public class ListNewsAdapter extends RecyclerView.Adapter<ListNewsAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private CardView cardView;
         private ImageView imgItem, imgItemMenu;
-        private TextView txtName, txtDesc, txtTgl;
+        private TextView txtJudul, txtDesc, txtTgl;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imgItemMenu = itemView.findViewById(R.id.img_item_menu);
             imgItem = itemView.findViewById(R.id.img_item);
-            txtName = itemView.findViewById(R.id.txt_name);
-            txtDesc = itemView.findViewById(R.id.txt_desc);
+            txtJudul = itemView.findViewById(R.id.txt_judul);
             txtTgl = itemView.findViewById(R.id.txt_tgl);
+            cardView = itemView.findViewById(R.id.card_item);
         }
     }
 
