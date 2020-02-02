@@ -1,15 +1,24 @@
 package com.example.uas_newper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,16 +30,23 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.uas_newper.Adapter.ListNewsAdapterUser;
 import com.example.uas_newper.Model.ItemModel;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.UUID;
 
 public class EditPostActivity extends AppCompatActivity {
     private String TAg = EditPostActivity.class.getSimpleName();
@@ -47,6 +63,7 @@ public class EditPostActivity extends AppCompatActivity {
     private Spinner et_cb;
     private Button bt_simpan;
     private ProgressBar loading;
+    private ImageView imageView;
     private String email, userId, pic;
     private SharedPreferences pref;
     private DatabaseReference databaseReference;
@@ -68,13 +85,37 @@ public class EditPostActivity extends AppCompatActivity {
         final ItemModel item = (ItemModel) getIntent().getSerializableExtra("data");
 
         if (item != null) {
+            if (!item.getPic().equals("-")) {
+                Glide.with(getApplicationContext()).load(Uri.parse(item.getPic())).into(imageView);
+            }
             et_deadline.setText(item.getDeadline());
             et_deskripsi.setText(item.getDeskripsi());
             et_judul.setText(item.getJudul());
+            if(item.getKategori().equals("Sport")){
+                et_cb.setSelection(0);
+            } else if(item.getKategori().equals("Ekonomi")){
+                et_cb.setSelection(1);
+            } else if(item.getKategori().equals("Terpopuler")){
+                et_cb.setSelection(2);
+            } else if(item.getKategori().equals("Teknologi")){
+                et_cb.setSelection(3);
+            }
             bt_simpan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateItem(item);
+                    if(upload_pic){
+                        uploadImage();
+                    } else {
+                        updateItem(item, pic);
+                    }
+
+                }
+            });
+
+            ib_upload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectImage();
                 }
             });
         }
@@ -113,14 +154,36 @@ public class EditPostActivity extends AppCompatActivity {
     private void updateLabel() {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
         et_deadline.setText(sdf.format(myCalendar.getTime()));
     }
 
-    private void updateItem(ItemModel item){
-        item.setDeadline(et_deadline.getText().toString().trim());
-        item.setDeskripsi(et_deskripsi.getText().toString().trim());
-        item.setJudul(et_judul.getText().toString().trim());
+    private void selectImage() {
+        // Defining Implicit Intent to mobile gallery
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(
+                Intent.createChooser(
+                        intent,
+                        "Select Image from here..."),
+                PICK_IMAGE_REQUEST);
+    }
+
+    private void updateItem(ItemModel item, String picture){
+        if(picture == null){
+            item.setDeadline(et_deadline.getText().toString().trim());
+            item.setDeskripsi(et_deskripsi.getText().toString().trim());
+            item.setJudul(et_judul.getText().toString().trim());
+            item.setKategori(et_cb.getSelectedItem().toString());
+            item.setSk("expose"+et_cb.getSelectedItem().toString());
+        } else if(!picture.isEmpty()){
+            item.setDeadline(et_deadline.getText().toString().trim());
+            item.setDeskripsi(et_deskripsi.getText().toString().trim());
+            item.setJudul(et_judul.getText().toString().trim());
+            item.setKategori(et_cb.getSelectedItem().toString());
+            item.setSk("expose"+et_cb.getSelectedItem().toString());
+            item.setPic(picture);
+        }
 
         FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).child(item.getKey()).setValue(item);
         Toast.makeText(EditPostActivity.this, "Edit Success", Toast.LENGTH_SHORT).show();
@@ -135,6 +198,59 @@ public class EditPostActivity extends AppCompatActivity {
         });
     }
 
+    private void uploadImage() {
+        if (filePath != null) {
+
+            // Code for showing progressDialog while uploading
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+            // Defining the child of storageReference
+            final StorageReference ref = storageReference.child("item/" + UUID.randomUUID().toString());
+
+            // adding listeners on upload
+            // or failure of image
+            ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Log.d("INI TAG WOY", "onSuccess: uri= "+ uri.toString());
+                                    pic = uri.toString();
+                                    progressDialog.dismiss();
+                                    Log.d("TAG", "Gambar udah di up");
+                                    final ItemModel item = (ItemModel) getIntent().getSerializableExtra("data");
+                                    updateItem(item, pic);
+                                }
+                            });
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            // Error, Image not uploaded
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                        // Progress Listener for loading
+                        // percentage on the dialog box
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            progressDialog.setMessage("Uploaded " + (int)progress + "%");
+                        }
+                    });
+        }
+    }
+
     public void initView(){
         et_deskripsi = findViewById(R.id.et_deskripsi);
         et_deadline = findViewById(R.id.et_deadline);
@@ -146,11 +262,33 @@ public class EditPostActivity extends AppCompatActivity {
         bt_simpan = findViewById(R.id.bt_simpan);
         bt_back = findViewById(R.id.bt_back);
         loading = findViewById(R.id.loading);
+        imageView = findViewById(R.id.iv_pic);
+        upload_pic = false;
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Berita");
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         myPref = new MyPref(getApplicationContext());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST
+            && resultCode == RESULT_OK
+            && data != null
+            && data.getData() !=null){
+
+            filePath = data.getData();
+            upload_pic = true;
+            try{
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                iv_pic.setImageBitmap(bitmap);
+            }
+            catch (IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 }

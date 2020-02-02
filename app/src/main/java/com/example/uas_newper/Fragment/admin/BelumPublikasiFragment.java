@@ -94,7 +94,7 @@ public class BelumPublikasiFragment extends Fragment implements ListNewsAdapterA
     }
 
     @Override
-    public void deleteItem(ItemModel item) {
+    public void deleteItem(final ItemModel item) {
 //        String imgUrl = FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).orderByChild("pic").toString();
 //        System.out.println(imgUrl);
 //        StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(imgUrl);
@@ -109,12 +109,35 @@ public class BelumPublikasiFragment extends Fragment implements ListNewsAdapterA
 //                Toast.makeText(getActivity(), "Foto Gagal Di hapus", Toast.LENGTH_SHORT).show();
 //            }
 //        });
-        FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).child(item.getKey()).removeValue()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(getActivity(), "Data berhasil di hapus.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+        StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(item.getPic());
+        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).child(item.getKey()).removeValue()
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getActivity(), "Data Berhasil di hapus", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+//        FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).child(item.getKey()).removeValue()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(getActivity(), "Data berhasil di hapus.", Toast.LENGTH_SHORT).show();
+
+
+//                        StorageReference photoRef = FirebaseStorage.getInstance().getReferenceFromUrl(item.getPic());
+//                        Toast.makeText(getActivity(), ""+photoRef+item.getPic(), Toast.LENGTH_LONG).show();
+//                        photoRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                            @Override
+//                            public void onSuccess(Void aVoid) {
+//                                Toast.makeText(getActivity(), "Data berhasil di hapus.", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+
     }
 }

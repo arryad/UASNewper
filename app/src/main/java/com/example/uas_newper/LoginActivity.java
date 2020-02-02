@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -349,13 +350,14 @@ public class LoginActivity extends AppCompatActivity {
 
                             String email = user.getEmail();
                             String username = user.getDisplayName();
+                            Uri image = user.getPhotoUrl();
                             String uid = user.getUid();
 
                             HashMap<Object, String> hashMap = new HashMap<>();
                             hashMap.put("email", email);
                             hashMap.put("name", username);
                             hashMap.put("level", "user");
-                            hashMap.put("image", "");
+                            hashMap.put("image", String.valueOf(image));
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference reference = database.getReference("Users");

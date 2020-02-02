@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class EkonomiFragment extends Fragment {
-    private String TAG = com.example.uas_newper.Fragment.user.TerbaruFragment.class.getSimpleName();
+    private String TAG = EkonomiFragment.class.getSimpleName();
 
     private ArrayList<ItemModel> listItem;
     private RecyclerView.LayoutManager layoutManager;

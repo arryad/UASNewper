@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uas_newper.Model.ItemModel;
+import com.example.uas_newper.admin.BeritaActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -254,6 +255,7 @@ public class AddPostActivity extends AppCompatActivity {
             }
         }
     }
+
     private void insertData(String picture) {
         loading.setVisibility(View.VISIBLE);
         if (TextUtils.isEmpty(userId)) {
@@ -283,8 +285,14 @@ public class AddPostActivity extends AppCompatActivity {
                 }
 
                 Log.d("TAG", "Data masuk gan");
-                onBackPressed();
                 //Toast.makeText(getApplicationContext(), "Data berhasil diinputkan", Toast.LENGTH_SHORT);
+
+                if(myPref.getSPLevel().equals("admin")){
+                    startActivity(new Intent(AddPostActivity.this, BeritaActivity.class));
+                } else if(myPref.getSPLevel().equals("user")){
+                    startActivity(new Intent(AddPostActivity.this, com.example.uas_newper.user.BeritaActivity.class));
+                }
+
             }
 
             @Override

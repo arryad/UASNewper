@@ -60,6 +60,7 @@ public class SettingFragment extends Fragment {
         txtLevel.setText(myPref.getSPLevel());
 
 
+
 //        txtName.setText(MyPref.getSharedPreferences().getString(MyPref.NAME, "NAME"));
 //        txtLevel.setText(MyPref.getSharedPreferences().getString(MyPref.LEVEL, "LEVEL"));
         return view;

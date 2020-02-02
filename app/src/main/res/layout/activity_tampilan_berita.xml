@@ -159,6 +159,17 @@
                 android:textSize="22sp" />
 
             <TextView
+                android:id="@+id/et_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bt_delete"
+                android:layout_marginTop="10dp"
+                android:text="penulis"
+                android:visibility="invisible"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" />
+
+            <TextView
                 android:id="@+id/et_sk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

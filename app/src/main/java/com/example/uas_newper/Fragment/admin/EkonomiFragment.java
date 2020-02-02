@@ -17,11 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.uas_newper.Adapter.ListNewsAdapterAdmin;
 import com.example.uas_newper.FirebaseUtils;
 import com.example.uas_newper.Model.ItemModel;
+import com.example.uas_newper.MyPref;
 import com.example.uas_newper.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -36,6 +39,7 @@ public class EkonomiFragment extends Fragment implements ListNewsAdapterAdmin.It
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter adapter;
     private RecyclerView recyclerView;
+    private MyPref myPref;
     ActionBar actionBar;
 
 
@@ -87,7 +91,7 @@ public class EkonomiFragment extends Fragment implements ListNewsAdapterAdmin.It
     }
 
     @Override
-    public void deleteItem(ItemModel item) {
+    public void deleteItem(final ItemModel item) {
         FirebaseUtils.getReference(FirebaseUtils.PATH_BERITA).child(item.getKey()).removeValue()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

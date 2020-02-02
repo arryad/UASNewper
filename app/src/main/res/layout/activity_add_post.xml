@@ -148,21 +148,20 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/bt_simpan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:background="@color/colorAccent"
-                    android:elevation="16dp"
-                    android:paddingVertical="4dp"
-                    android:stateListAnimator="@null"
-                    android:text="SIMPAN"
-                    android:textColor="@android:color/white" />
-
             </LinearLayout>
 
         </ScrollView>
 
+    <Button
+        android:id="@+id/bt_simpan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:elevation="16dp"
+        android:paddingVertical="4dp"
+        android:stateListAnimator="@null"
+        android:text="SIMPAN"
+        android:textColor="@android:color/white" />
 
     </RelativeLayout>

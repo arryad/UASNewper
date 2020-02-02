@@ -60,7 +60,18 @@ public class TampilanBerita extends AppCompatActivity {
             eJudul.setText(item.getJudul());
             eSk.setText(item.getKategori());
             ePenulis.setText(item.getNama());
+            eStatus.setText(item.getStatus());
             ePublisher.setText(item.getPublisher());
+
+            Toast.makeText(this, ""+ePublisher.getText(), Toast.LENGTH_SHORT).show();
+
+
+            if(eStatus.getText().toString().equals("unexpose")){
+                Toast.makeText(this, ""+eStatus, Toast.LENGTH_SHORT).show();
+                eSave.setEnabled(true);;
+            } else {
+                eSave.setEnabled(false);
+            }
 
             eBack.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -111,6 +122,7 @@ public class TampilanBerita extends AppCompatActivity {
         eSave = findViewById(R.id.bt_pub);
         eDelete = findViewById(R.id.bt_delete);
         eBack = findViewById(R.id.bt_back);
+        eStatus = findViewById(R.id.et_status);
         eSk = findViewById(R.id.et_sk);
         loading = findViewById(R.id.loading);
         ePic = findViewById(R.id.et_foto);
